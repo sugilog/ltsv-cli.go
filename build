@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if ARGV.first == "sample"
-  SAMPLE_FILE = "sample.csv"
+  SAMPLE_FILE = "sample.ltsv"
   SAMPLES = [
     {fruits: "apple",  sports: "tennis",       movie: "matrix"},
     {fruits: "banana", sports: "table tennis", movie: "matrix"},
@@ -9,7 +9,7 @@ if ARGV.first == "sample"
     {fruits: "apple",  sports: "snowboarding", movie: "oceans11"}
   ]
   
-  samples.each do |items|
+  SAMPLES.each do |items|
     File.open SAMPLE_FILE, "a" do |file|
       line = items.map{|k, v| "#{k}:#{v}" }.join "\t"
       file.puts line
