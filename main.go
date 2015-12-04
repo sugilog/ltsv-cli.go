@@ -6,6 +6,7 @@ import(
   "bufio"
   "bytes"
   "strings"
+  "regexp"
   "github.com/codegangsta/cli"
   "github.com/najeira/ltsv"
 )
@@ -54,12 +55,13 @@ func grep( context *cli.Context ) {
   }
 
   word := context.Args()[ 0 ]
+  pattern := regexp.MustCompile( word )
 
   scan( func( line string, record map[ string ]string ) {
     if len( keys ) > 0 {
       FilteringWithKey:
         for field, value := range record {
-          if keys[ field ] && value == word {
+          if keys[ field ] && pattern.MatchString( value ) {
             fmt.Println( line )
             break FilteringWithKey
           }
@@ -67,7 +69,7 @@ func grep( context *cli.Context ) {
     } else {
       FilteringWithoutKey:
         for _, value := range record {
-          if value == word {
+          if pattern.MatchString( value ) {
             fmt.Println( line )
             break FilteringWithoutKey
           }
