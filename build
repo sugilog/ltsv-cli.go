@@ -1,14 +1,24 @@
 #!/usr/bin/env ruby
 
-if ARGV.first == "sample"
-  SAMPLE_FILE = "sample.ltsv"
-  SAMPLES = [
-    {fruits: "apple",  sports: "tennis",       movie: "matrix"},
-    {fruits: "banana", sports: "table tennis", movie: "matrix"},
-    {fruits: "berry",  sports: "baseball",     movie: "not interested"},
-    {fruits: "apple",  sports: "snowboarding", movie: "oceans11"}
-  ]
+COMMAND_NAME = "lc"
+SOURCE_FILE  = "main.go"
+GENERATE_DIR = "gen"
+
+SAMPLE_FILE = "sample.ltsv"
+SAMPLES = [
+  {fruits: "apple",  sports: "tennis",       movie: "matrix"},
+  {fruits: "banana", sports: "table tennis", movie: "matrix"},
+  {fruits: "berry",  sports: "baseball",     movie: "not interested"},
+  {fruits: "apple",  sports: "snowboarding", movie: "oceans11"}
+]
+
+def sh command
+  $stdout.print "Exec: "
+  $stdout.puts command
+  system command
+end
   
+if ARGV.first == "sample"
   SAMPLES.each do |items|
     File.open SAMPLE_FILE, "a" do |file|
       line = items.map{|k, v| "#{k}:#{v}" }.join "\t"
@@ -16,7 +26,9 @@ if ARGV.first == "sample"
     end
   end
 else
-  COMMAND_NAME = "lc"
-  SOURCE_FILE  = "main.go"
-  system "go build -o #{COMMAND_NAME} #{SOURCE_FILE}"
+  unless File.exists? GENERATE_DIR
+    sh "mkdir #{GENERATE_DIR}"
+  end
+
+  sh "go build -o #{GENERATE_DIR}/#{COMMAND_NAME} #{SOURCE_FILE}"
 end

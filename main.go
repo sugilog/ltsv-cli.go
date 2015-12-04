@@ -35,17 +35,18 @@ func main() {
       Action:  filter,
     },
   }
+
   app.Run(os.Args)
 }
 
-func grep( c *cli.Context ) {
-  var keys []string
+func grep( context *cli.Context ) {
+  var keys map[string]bool
 
-  if len( c.String( "key" ) ) > 0  {
-    keys = strings.Split( c.String( "key" ), "," )
+  if len( context.String( "key" ) ) > 0  {
+    keys = mapKeys( context.String( "key" ) )
   }
 
-  word := c.Args()[ 0 ]
+  word := context.Args()[ 0 ]
 
   scanner := bufio.NewScanner( os.Stdin )
 
@@ -53,7 +54,7 @@ func grep( c *cli.Context ) {
     line   := scanner.Text()
     bytes  := bytes.NewBufferString( line )
     reader := ltsv.NewReader( bytes )
-    records, err := reader.ReadAll()
+    record, err := reader.Read()
 
     if err != nil {
       fmt.Fprintln( os.Stderr, "parsing ltsv:", err )
@@ -61,17 +62,15 @@ func grep( c *cli.Context ) {
 
     if len( keys ) > 0 {
       FilteringWithKey:
-        for field, value := range records[ 0 ] {
-          for _, key := range keys {
-            if field == key && value == word {
-              fmt.Println( line )
-              break FilteringWithKey
-            }
+        for field, value := range record {
+          if keys[ field ] && value == word {
+            fmt.Println( line )
+            break FilteringWithKey
           }
         }
     } else {
       FilteringWithoutKey:
-        for _, value := range records[ 0 ] {
+        for _, value := range record {
           if value == word {
             fmt.Println( line )
             break FilteringWithoutKey
@@ -88,4 +87,23 @@ func grep( c *cli.Context ) {
 func filter( c *cli.Context ) {
   fmt.Println( "filter" )
   fmt.Println( c )
+}
+
+// func slice( record map[ string ]string, keys map[ string ]bool ) ( sliced map[ string ]string ) {
+//   for key, value := range record {
+//     if keys[ key ] {
+//       sliced[ key ] = value
+//     }
+//   }
+// }
+
+func mapKeys( keys string ) ( mapped map[ string ]bool ) {
+  mapped = make( map[ string ]bool )
+  splitted := strings.Split( keys, "," )
+
+  for _, key := range splitted {
+    mapped[ key ] = true
+  }
+
+  return mapped
 }
