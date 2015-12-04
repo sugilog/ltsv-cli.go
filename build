@@ -15,7 +15,8 @@ if ARGV.first == "sample"
       file.puts line
     end
   end
-
 else
-  system "go build -o lc main.go"
+  COMMAND_NAME = "lc"
+  SOURCE_FILE  = "main.go"
+  system "go build -o #{COMMAND_NAME} #{SOURCE_FILE}"
 end
