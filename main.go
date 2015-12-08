@@ -108,7 +108,7 @@ func scan( handler func( string, map[ string ]string ) ) {
   scanner := bufio.NewScanner( os.Stdin )
 
   for scanner.Scan() {
-    line   := scanner.Text()
+    line   := strings.Trim( scanner.Text(), "\t" )
     bytes  := bytes.NewBufferString( line )
     reader := ltsv.NewReader( bytes )
     record, err := reader.Read()
