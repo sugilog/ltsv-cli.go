@@ -30,5 +30,13 @@ else
     sh "mkdir #{GENERATE_DIR}"
   end
 
-  sh "go build -o #{GENERATE_DIR}/#{COMMAND_NAME} #{SOURCE_FILE}"
+  [
+    { :os => "linux",  :arch => "386"   },
+    { :os => "linux",  :arch => "arm"   },
+    { :os => "linux",  :arch => "amd64" },
+    { :os => "darwin", :arch => "386"   },
+    { :os => "darwin", :arch => "amd64" },
+  ].each do |config|
+    sh "env GOOS=#{config[:os]} GOARCH=#{config[:arch]} go build -o #{GENERATE_DIR}/#{COMMAND_NAME}.#{config[:os]}.#{config[:arch]} #{SOURCE_FILE}"
+  end
 end
