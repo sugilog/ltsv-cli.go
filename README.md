@@ -15,3 +15,19 @@ brew install go --cross-compile-all
 
 on linux, see: http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1
 
+
+## Install
+
+ex
+
+on `linux x86_64`:
+
+```
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.linux.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+```
+
+on `Mac x86_64`:
+
+```
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+```
