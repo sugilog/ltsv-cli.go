@@ -23,6 +23,23 @@ on linux, see: http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compil
 https://github.com/mattn/gom
 
 
+Development
+----------------------------------------
+
+Install libraries.
+
+```
+gom install
+```
+
+After coding, build.
+
+```
+./build
+```
+
+
+
 Install
 ----------------------------------------
 
@@ -39,3 +56,20 @@ on `Mac x86_64`:
 ```
 curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
 ```
+
+Usage
+----------------------------------------
+
+Filter ltsv keys
+
+```
+cat {ltsv file} | lc f --key={key1,key2,..}
+```
+
+Grep ltsv lines
+
+```
+cat {ltsv file} | lc f --key={key1,key2,..} {word}
+```
+
+
