@@ -3,12 +3,12 @@ package main
 import(
   "os"
   "fmt"
-  "bufio"
   "bytes"
   "strings"
   "regexp"
   "github.com/codegangsta/cli"
   "github.com/najeira/ltsv"
+  "lc"
 )
 
 func main() {
@@ -57,7 +57,7 @@ func grep( context *cli.Context ) {
   word := context.Args()[ 0 ]
   pattern := regexp.MustCompile( word )
 
-  scan( func( line string, record map[ string ]string ) {
+  lc.Scan( func( line string, record map[ string ]string ) {
     if len( keys ) > 0 {
       FilteringWithKey:
         for field, value := range record {
@@ -88,7 +88,7 @@ func filter( context *cli.Context ) {
     os.Exit( 1 )
   }
 
-  scan( func( _ string, record map[ string ]string ) {
+  lc.Scan( func( _ string, record map[ string ]string ) {
     sliced := slice( record, keys )
 
     bytes  := &bytes.Buffer{}
@@ -102,27 +102,6 @@ func filter( context *cli.Context ) {
       fmt.Printf( "%v", bytes.String() )
     }
   })
-}
-
-func scan( handler func( string, map[ string ]string ) ) {
-  scanner := bufio.NewScanner( os.Stdin )
-
-  for scanner.Scan() {
-    line   := strings.Trim( scanner.Text(), "\t" )
-    bytes  := bytes.NewBufferString( line )
-    reader := ltsv.NewReader( bytes )
-    record, err := reader.Read()
-
-    if err != nil {
-      fmt.Fprintln( os.Stderr, "parsing ltsv:", err )
-    }
-
-    handler( line, record )
-  }
-
-  if err := scanner.Err(); err != nil {
-    fmt.Fprintln( os.Stderr, "reading standard input:", err )
-  }
 }
 
 func slice( record map[ string ]string, keys map[ string ]bool ) map[ string ]string {
