@@ -20,20 +20,20 @@ func main() {
         cli.StringFlag {
           Name: "key, k",
           Value: "",
-          Usage: "greppable key",
+          Usage: "grep-able key",
         },
       },
     },
     {
       Name:    "filter",
       Aliases: []string{ "f" },
-      Usage:   "filter ltsv fieds only specified keys",
+      Usage:   "filter ltsv fields only specified keys",
       Action:  lc.Filter,
       Flags:   []cli.Flag {
         cli.StringFlag {
           Name: "key, k",
           Value: "",
-          Usage: "slice key",
+          Usage: "filtering key",
         },
       },
     },
