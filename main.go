@@ -4,7 +4,6 @@ import(
   "os"
   "fmt"
   "bytes"
-  "regexp"
   "github.com/codegangsta/cli"
   "github.com/najeira/ltsv"
   "lc"
@@ -48,9 +47,12 @@ func main() {
 
 func grep( context *cli.Context ) {
   keys, _ := lc.Keys( context )
+  pattern, err := lc.Word( context )
 
-  word := context.Args()[ 0 ]
-  pattern := regexp.MustCompile( word )
+  if err != nil {
+    fmt.Fprintln( os.Stderr, err )
+    os.Exit( 1 )
+  }
 
   lc.Scan( func( line string, record map[ string ]string ) {
     if len( keys ) > 0 {

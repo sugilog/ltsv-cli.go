@@ -3,8 +3,23 @@ package lc
 import(
   "strings"
   "errors"
+  "regexp"
   "github.com/codegangsta/cli"
 )
+
+func Word( context *cli.Context ) (*regexp.Regexp, error) {
+  if len(context.Args()) == 0 {
+    return nil, errors.New( "Word not given" )
+  }
+
+  word := context.Args()[ 0 ]
+
+  if len(word) <= 0 {
+    return nil, errors.New( "Word not given" )
+  } else {
+    return regexp.MustCompile( word ), nil
+  }
+}
 
 func Keys( context *cli.Context ) (map[ string ]bool, error) {
   arg := context.String( "key" )
@@ -12,7 +27,6 @@ func Keys( context *cli.Context ) (map[ string ]bool, error) {
   splitted := strings.SplitN( arg, ",", 0 )
 
   for _, key := range splitted {
-    fmt.Println( key )
     mapped[ key ] = true
   }
 
