@@ -46,6 +46,12 @@ Generate sample ltsv (./sample.ltsv).
 make sample
 ```
 
+Format source codes
+
+```
+make format
+```
+
 
 
 Install
