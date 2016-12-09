@@ -78,8 +78,6 @@ func grep( context *cli.Context ) {
 func filter( context *cli.Context ) {
   keys, err := lc.Keys( context )
 
-  fmt.Printf("%d, %v\n", len(keys), keys)
-
   if err != nil {
     fmt.Fprintln( os.Stderr, err )
     os.Exit( 1 )

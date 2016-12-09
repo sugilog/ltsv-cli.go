@@ -24,7 +24,11 @@ func Word( context *cli.Context ) (*regexp.Regexp, error) {
 func Keys( context *cli.Context ) (map[ string ]bool, error) {
   arg := context.String( "key" )
   mapped := make( map[ string ]bool )
-  splitted := strings.SplitN( arg, ",", 0 )
+  splitted := strings.Split( arg, "," )
+
+  if len( splitted ) == 1 && splitted[0] == "" {
+    return mapped, errors.New( "Key(s) not given" )
+  }
 
   for _, key := range splitted {
     mapped[ key ] = true
