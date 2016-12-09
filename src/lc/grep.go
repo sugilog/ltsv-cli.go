@@ -15,23 +15,23 @@ func Grep(context *cli.Context) {
 		os.Exit(1)
 	}
 
-	Scan(func(line string, record map[string]string) {
-		if len(keys) > 0 {
-		FilteringWithKey:
-			for field, value := range record {
-				if keys[field] && pattern.MatchString(value) {
-					fmt.Println(line)
-					break FilteringWithKey
-				}
-			}
-		} else {
-		FilteringWithoutKey:
+  if len(keys) > 0 {
+    Scan(func(line string, record map[string]string) {
+      for field, value := range record {
+        if keys[field] && pattern.MatchString(value) {
+          fmt.Println(line)
+          break
+        }
+      }
+    })
+  } else {
+    Scan(func(line string, record map[string]string) {
 			for _, value := range record {
 				if pattern.MatchString(value) {
 					fmt.Println(line)
-					break FilteringWithoutKey
+					break
 				}
 			}
-		}
-	})
+    })
+  }
 }
