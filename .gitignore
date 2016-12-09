@@ -8,6 +8,7 @@ _obj
 _test
 _vendor
 vendor
+sample.ltsv
 
 # Architecture specific extensions/prefixes
 *.[568vq]
