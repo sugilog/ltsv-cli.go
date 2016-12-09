@@ -1,6 +1,7 @@
-PROGNAME="lc"
-SOURCE="main.go"
-GENDIR="gen"
+PROGNAME = lc
+SOURCE   = main.go
+GENDIR   = gen
+IMPLDIR  = src/$(PROGNAME)
 
 generate:
 	env GOOS=linux  GOARCH=386   gom build -o ${GENDIR}/${PROGNAME}.linux.386    ${SOURCE}
@@ -10,3 +11,6 @@ generate:
 	env GOOS=darwin GOARCH=amd64 gom build -o ${GENDIR}/${PROGNAME}.darwin.amd64 ${SOURCE}
 sample:
 	go run bin/sampler.go --line 100000 > sample.ltsv
+format:
+	go fmt $(SOURCE)
+	go fmt $(IMPLDIR)/*
