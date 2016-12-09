@@ -4,7 +4,6 @@ import(
   "os"
   "fmt"
   "bytes"
-  "strings"
   "regexp"
   "github.com/codegangsta/cli"
   "github.com/najeira/ltsv"
@@ -48,11 +47,7 @@ func main() {
 }
 
 func grep( context *cli.Context ) {
-  var keys map[string]bool
-
-  if len( context.String( "key" ) ) > 0  {
-    keys = mapKeys( context.String( "key" ) )
-  }
+  keys, _ := lc.Keys( context )
 
   word := context.Args()[ 0 ]
   pattern := regexp.MustCompile( word )
@@ -79,12 +74,12 @@ func grep( context *cli.Context ) {
 }
 
 func filter( context *cli.Context ) {
-  var keys map[string]bool
+  keys, err := lc.Keys( context )
 
-  if len( context.String( "key" ) ) > 0  {
-    keys = mapKeys( context.String( "key" ) )
-  } else {
-    fmt.Fprintln( os.Stderr, "key should be given" )
+  fmt.Printf("%d, %v\n", len(keys), keys)
+
+  if err != nil {
+    fmt.Fprintln( os.Stderr, err )
     os.Exit( 1 )
   }
 
@@ -114,15 +109,4 @@ func slice( record map[ string ]string, keys map[ string ]bool ) map[ string ]st
   }
 
   return sliced
-}
-
-func mapKeys( keys string ) map[ string ]bool {
-  mapped := make( map[ string ]bool )
-  splitted := strings.Split( keys, "," )
-
-  for _, key := range splitted {
-    mapped[ key ] = true
-  }
-
-  return mapped
 }
