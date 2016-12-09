@@ -37,7 +37,7 @@ gom install
 After coding, build.
 
 ```
-make gen
+make generate
 ```
 
 Generate sample ltsv (./sample.ltsv).

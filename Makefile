@@ -2,7 +2,7 @@ PROGNAME="lc"
 SOURCE="main.go"
 GENDIR="gen"
 
-gen:
+generate:
 	env GOOS=linux  GOARCH=386   gom build -o ${GENDIR}/${PROGNAME}.linux.386    ${SOURCE}
 	env GOOS=linux  GOARCH=arm   gom build -o ${GENDIR}/${PROGNAME}.linux.arm    ${SOURCE}
 	env GOOS=linux  GOARCH=amd64 gom build -o ${GENDIR}/${PROGNAME}.linux.amd64  ${SOURCE}
