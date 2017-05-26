@@ -1,16 +1,14 @@
 PROGNAME = lc
 SOURCE   = main.go
-GENDIR   = gen
-IMPLDIR  = src/$(PROGNAME)
+GENDIR   = pkg
+
+deps:
+	go get github.com/codegangsta/cli
+	go get github.com/najeira/ltsv
 
 generate:
-	env GOOS=linux  GOARCH=386   gom build -o ${GENDIR}/${PROGNAME}.linux.386    ${SOURCE}
-	env GOOS=linux  GOARCH=arm   gom build -o ${GENDIR}/${PROGNAME}.linux.arm    ${SOURCE}
-	env GOOS=linux  GOARCH=amd64 gom build -o ${GENDIR}/${PROGNAME}.linux.amd64  ${SOURCE}
-	env GOOS=darwin GOARCH=386   gom build -o ${GENDIR}/${PROGNAME}.darwin.386   ${SOURCE}
-	env GOOS=darwin GOARCH=amd64 gom build -o ${GENDIR}/${PROGNAME}.darwin.amd64 ${SOURCE}
+	env GOOS=linux  GOARCH=amd64 go build -ldfrag="-s -w" -o ${GENDIR}/${PROGNAME}.linux.amd64  ${SOURCE}
+	env GOOS=darwin GOARCH=amd64 go build -ldfrag="-s -w" -o ${GENDIR}/${PROGNAME}.darwin.amd64 ${SOURCE}
+
 sample:
 	go run bin/sampler.go --line 100000 > sample.ltsv
-format:
-	go fmt $(SOURCE)
-	go fmt $(IMPLDIR)/*
