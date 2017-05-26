@@ -1,5 +1,5 @@
 PROGNAME = lc
-SOURCE   = main.go
+SOURCE   = cmd/${PROGNAME}/main.go
 GENDIR   = pkg
 
 deps:
