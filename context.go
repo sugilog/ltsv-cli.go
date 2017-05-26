@@ -2,9 +2,10 @@ package lc
 
 import (
 	"errors"
-	"github.com/codegangsta/cli"
 	"regexp"
 	"strings"
+
+	"github.com/codegangsta/cli"
 )
 
 func Word(context *cli.Context) (*regexp.Regexp, error) {
