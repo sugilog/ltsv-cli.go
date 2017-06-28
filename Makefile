@@ -10,8 +10,8 @@ test:
 
 ## Install dependencies
 deps:
-	go get github.com/codegangsta/cli
-	go get github.com/najeira/ltsv
+	go get -u github.com/codegangsta/cli
+	go get -u github.com/najeira/ltsv
 
 ## Build releases
 release:
@@ -26,4 +26,4 @@ sample:
 help:
 	@make2help $(MAKEFILE_LIST)
 
-.PHONY: test deps release
+.PHONY: test deps release sample
