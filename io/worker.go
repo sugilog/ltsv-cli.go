@@ -3,18 +3,17 @@ package io
 import (
 	"bufio"
 	"fmt"
-	"sort"
 	"sync"
 )
 
 func Worker(iomap IOMap, handler func(Entry) (Entry, bool)) {
 	outputWorker := make(chan Entry)
-	outputWait := Output(&iomap, outputWorker)
-	Reader(&iomap, outputWorker, handler)
+	outputWait := output(&iomap, outputWorker)
+	reader(&iomap, outputWorker, handler)
 	outputWait.Wait()
 }
 
-func Reader(iomap *IOMap, outputWorker chan Entry, handler func(Entry) (Entry, bool)) {
+func reader(iomap *IOMap, outputWorker chan Entry, handler func(Entry) (Entry, bool)) {
 	var readWait sync.WaitGroup
 
 	scanner := bufio.NewScanner(iomap.In)
@@ -53,7 +52,7 @@ func Reader(iomap *IOMap, outputWorker chan Entry, handler func(Entry) (Entry, b
 	readWait.Wait()
 }
 
-func Output(iomap *IOMap, outputWorker chan Entry) *sync.WaitGroup {
+func output(iomap *IOMap, outputWorker chan Entry) *sync.WaitGroup {
 	var outputWait sync.WaitGroup
 	outputWait.Add(1)
 
@@ -90,29 +89,4 @@ func Output(iomap *IOMap, outputWorker chan Entry) *sync.WaitGroup {
 	}()
 
 	return &outputWait
-}
-
-func Sort(slice []Entry) []Entry {
-	sort.Slice(slice, func(i, j int) bool {
-		return slice[i].LineNo < slice[j].LineNo
-	})
-
-	return slice
-}
-
-func Nullify(slice []Entry, i int) []Entry {
-	slice[i] = NullEntry
-	return slice
-}
-
-func Compact(slice []Entry) []Entry {
-	var new []Entry
-
-	for _, entry := range slice {
-		if entry.LineNo != NullEntry.LineNo {
-			new = append(new, entry)
-		}
-	}
-
-	return new
 }
