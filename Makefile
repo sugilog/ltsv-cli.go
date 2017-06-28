@@ -6,7 +6,7 @@ GENDIR   = pkg
 
 ## Run tests.
 test:
-	go test
+	go test ./ ./io
 
 ## Install dependencies
 deps:
