@@ -10,7 +10,7 @@ test:
 
 ## Install dependencies
 deps:
-	go get -u github.com/codegangsta/cli
+	go get -u github.com/urfave/cli
 	go get -u github.com/najeira/ltsv
 
 ## Build releases

@@ -7,9 +7,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/codegangsta/cli"
 	"github.com/sugilog/ltsv-cli.go/formatter"
 	"github.com/sugilog/ltsv-cli.go/io"
+	"github.com/urfave/cli"
 )
 
 // no test
