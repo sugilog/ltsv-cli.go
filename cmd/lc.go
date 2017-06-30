@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/codegangsta/cli"
 	"github.com/sugilog/ltsv-cli.go"
+	"github.com/urfave/cli"
 	"os"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "lc"
+	app.Version = "1.0.0"
 	app.Usage = "ltsv grep/filtering tool"
 	app.Commands = []cli.Command{
 		{

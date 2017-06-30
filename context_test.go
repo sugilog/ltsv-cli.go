@@ -4,7 +4,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 )
 
 func TestWord(t *testing.T) {
@@ -59,7 +59,7 @@ func TestKeys(t *testing.T) {
 		t.Error(err)
 	}
 
-	if !keys["field1"] {
+	if keys[0] != "field1" {
 		t.Error("Keys should return with key 'field1'")
 	}
 }
@@ -77,11 +77,11 @@ func TestKeysHavingComma(t *testing.T) {
 		t.Error(err)
 	}
 
-	if !keys["field1"] {
+	if keys[0] != "field1" {
 		t.Error("Keys should return with key 'field1'")
 	}
 
-	if !keys["field2"] {
+	if keys[1] != "field2" {
 		t.Error("Keys should return with key 'field2'")
 	}
 }

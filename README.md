@@ -33,25 +33,19 @@ Development
 Install libraries.
 
 ```
-gom install
+make deps
 ```
 
 After coding, build.
 
 ```
-make generate
+make release
 ```
 
 Generate sample ltsv (./sample.ltsv).
 
 ```
 make sample
-```
-
-Format source codes
-
-```
-make format
 ```
 
 
@@ -64,14 +58,15 @@ ex
 on `linux x86_64`:
 
 ```
-curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.linux.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/pkg/lc.linux.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
 ```
 
 on `Mac x86_64`:
 
 ```
-curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/pkg/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
 ```
+
 
 Usage
 ----------------------------------------
@@ -85,7 +80,7 @@ cat {ltsv file} | lc f --key={key1,key2,..}
 Grep ltsv lines
 
 ```
-cat {ltsv file} | lc f --key={key1,key2,..} {word}
+cat {ltsv file} | lc g --key={key1,key2,..} {word}
 ```
 
 

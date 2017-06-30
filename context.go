@@ -2,11 +2,52 @@ package lc
 
 import (
 	"errors"
+	"fmt"
+	"os"
 	"regexp"
 	"strings"
 
-	"github.com/codegangsta/cli"
+	"github.com/sugilog/ltsv-cli.go/formatter"
+	"github.com/sugilog/ltsv-cli.go/io"
+	"github.com/urfave/cli"
 )
+
+// no test
+func Filter(context *cli.Context) {
+	keys, err := Keys(context)
+
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	filter := formatter.FilterFormatter(keys)
+	iomap := io.IOMap{
+		Out: os.Stdout,
+		Err: os.Stderr,
+		In:  os.Stdin,
+	}
+	io.Worker(iomap, filter)
+}
+
+// no test
+func Grep(context *cli.Context) {
+	keys, _ := Keys(context)
+	pattern, err := Word(context)
+
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	grep := formatter.GrepFormatter(pattern, keys)
+	iomap := io.IOMap{
+		Out: os.Stdout,
+		Err: os.Stderr,
+		In:  os.Stdin,
+	}
+	io.Worker(iomap, grep)
+}
 
 func Word(context *cli.Context) (*regexp.Regexp, error) {
 	if len(context.Args()) == 0 {
@@ -22,22 +63,13 @@ func Word(context *cli.Context) (*regexp.Regexp, error) {
 	}
 }
 
-func Keys(context *cli.Context) (map[string]bool, error) {
+func Keys(context *cli.Context) ([]string, error) {
 	arg := context.String("key")
-	mapped := make(map[string]bool)
 	splitted := strings.Split(arg, ",")
 
 	if len(splitted) == 1 && splitted[0] == "" {
-		return mapped, errors.New("Key(s) not given")
-	}
-
-	for _, key := range splitted {
-		mapped[key] = true
-	}
-
-	if len(mapped) > 0 {
-		return mapped, nil
+		return splitted, errors.New("Key(s) not given")
 	} else {
-		return mapped, errors.New("Key(s) not given")
+		return splitted, nil
 	}
 }
