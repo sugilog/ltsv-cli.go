@@ -58,13 +58,13 @@ ex
 on `linux x86_64`:
 
 ```
-curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.linux.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/pkg/lc.linux.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
 ```
 
 on `Mac x86_64`:
 
 ```
-curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/gen/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
+curl https://raw.githubusercontent.com/sugilog/ltsv-cli.go/master/pkg/lc.darwin.amd64 > ~/bin/lc && chmod 0755 ~/bin/lc
 ```
 
 
