@@ -6,14 +6,14 @@ import (
 	"sync"
 )
 
-func Worker(iomap IOMap, handler func(Entry) (Entry, bool)) {
+func Worker(iomap IOMap, formatter func(Entry) (Entry, bool)) {
 	outputWorker := make(chan Entry)
 	outputWait := output(&iomap, outputWorker)
-	reader(&iomap, outputWorker, handler)
+	reader(&iomap, outputWorker, formatter)
 	outputWait.Wait()
 }
 
-func reader(iomap *IOMap, outputWorker chan Entry, handler func(Entry) (Entry, bool)) {
+func reader(iomap *IOMap, outputWorker chan Entry, formatter func(Entry) (Entry, bool)) {
 	var readWait sync.WaitGroup
 
 	scanner := bufio.NewScanner(iomap.In)
@@ -37,7 +37,7 @@ func reader(iomap *IOMap, outputWorker chan Entry, handler func(Entry) (Entry, b
 			}()
 
 			entry := Entry{LineNo: lineNo, Line: line}
-			entry, ok := handler(entry)
+			entry, ok := formatter(entry)
 
 			if ok {
 				outputWorker <- entry
