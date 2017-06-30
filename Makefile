@@ -6,7 +6,7 @@ GENDIR   = pkg
 
 ## Run tests.
 test:
-	go test ./ ./io
+	go test ./ ./io ./formatter
 
 ## Install dependencies
 deps:
