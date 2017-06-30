@@ -3,8 +3,8 @@ package lc
 import (
 	"errors"
 	"fmt"
-	// "regexp"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/codegangsta/cli"
@@ -30,19 +30,38 @@ func Filter(context *cli.Context) {
 	io.Worker(iomap, filter)
 }
 
-// func Word(context *cli.Context) (*regexp.Regexp, error) {
-// 	if len(context.Args()) == 0 {
-// 		return nil, errors.New("Word not given")
-// 	}
+// no test
+func Grep(context *cli.Context) {
+	keys, _ := Keys(context)
+	pattern, err := Word(context)
 
-// 	word := context.Args()[0]
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
-// 	if len(word) <= 0 {
-// 		return nil, errors.New("Word not given")
-// 	} else {
-// 		return regexp.MustCompile(word), nil
-// 	}
-// }
+	grep := formatter.GrepFormatter(pattern, keys)
+	iomap := io.IOMap{
+		Out: os.Stdout,
+		Err: os.Stderr,
+		In:  os.Stdin,
+	}
+	io.Worker(iomap, grep)
+}
+
+func Word(context *cli.Context) (*regexp.Regexp, error) {
+	if len(context.Args()) == 0 {
+		return nil, errors.New("Word not given")
+	}
+
+	word := context.Args()[0]
+
+	if len(word) <= 0 {
+		return nil, errors.New("Word not given")
+	} else {
+		return regexp.MustCompile(word), nil
+	}
+}
 
 func Keys(context *cli.Context) ([]string, error) {
 	arg := context.String("key")
