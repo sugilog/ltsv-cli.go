@@ -1,5 +1,5 @@
 PROGNAME = lc
-SOURCE   = cmd/${PROGNAME}/main.go
+SOURCE   = cmd/${PROGNAME}.go
 GENDIR   = pkg
 
 .DEFAULT_GOAL := help
@@ -15,8 +15,8 @@ deps:
 
 ## Build releases
 release:
-	env GOOS=linux  GOARCH=amd64 go build -ldfrag="-s -w" -o ${GENDIR}/${PROGNAME}.linux.amd64  ${SOURCE}
-	env GOOS=darwin GOARCH=amd64 go build -ldfrag="-s -w" -o ${GENDIR}/${PROGNAME}.darwin.amd64 ${SOURCE}
+	env GOOS=linux  GOARCH=amd64 go build -ldflags="-s -w" -o ${GENDIR}/${PROGNAME}.linux.amd64  ${SOURCE}
+	env GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ${GENDIR}/${PROGNAME}.darwin.amd64 ${SOURCE}
 
 ## Generate sample.ltsv
 sample:
