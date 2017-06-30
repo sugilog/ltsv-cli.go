@@ -51,6 +51,68 @@ func TestNullEntry(t *testing.T) {
 	}
 }
 
+func TestLTSV(t *testing.T) {
+	nonltsv := Entry{
+		LineNo: 1,
+		Line:   "test\tline",
+	}
+
+	converted, err := nonltsv.LTSV()
+
+	if err == nil {
+		t.Error("Nonltsv line should return error")
+	}
+
+	ltsv := Entry{
+		LineNo: 1,
+		Line:   "test:line\tvalid:true",
+	}
+
+	converted, err = ltsv.LTSV()
+
+	if err != nil {
+		t.Error("Ltsv line should not return error")
+	}
+
+	if converted["test"] != "line" {
+		t.Error("Invalid parsing LTSV")
+	}
+
+	if converted["valid"] != "true" {
+		t.Error("Invalid parsing LTSV")
+	}
+
+	trailingtab := Entry{
+		LineNo: 1,
+		Line:   "test:line\t",
+	}
+
+	converted, err = trailingtab.LTSV()
+
+	if err != nil {
+		t.Error("Trailing Tab line should not return error")
+	}
+
+	if converted["test"] != "line" {
+		t.Error("Invalid parsing LTSV")
+	}
+
+	leadingtab := Entry{
+		LineNo: 1,
+		Line:   "\ttest:line",
+	}
+
+	converted, err = leadingtab.LTSV()
+
+	if err != nil {
+		t.Error("Leading Tab line should not return error")
+	}
+
+	if converted["test"] != "line" {
+		t.Error("Invalid parsing LTSV")
+	}
+}
+
 func TestSort(t *testing.T) {
 	entries := make([]Entry, 5, 5)
 	entries[0] = Entry{LineNo: 1}

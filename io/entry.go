@@ -1,7 +1,11 @@
 package io
 
 import (
+	"bytes"
 	"sort"
+	"strings"
+
+	"github.com/najeira/ltsv"
 )
 
 type Entry struct {
@@ -11,6 +15,13 @@ type Entry struct {
 }
 
 var NullEntry = Entry{LineNo: -1}
+
+func (entry *Entry) LTSV() (map[string]string, error) {
+	line := strings.Trim(entry.Line, "\t")
+	converted := bytes.NewBufferString(line)
+	reader := ltsv.NewReader(converted)
+	return reader.Read()
+}
 
 func Sort(slice []Entry) []Entry {
 	sort.Slice(slice, func(i, j int) bool {
