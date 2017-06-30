@@ -9,6 +9,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "lc"
+	app.Version = "1.0.0"
 	app.Usage = "ltsv grep/filtering tool"
 	app.Commands = []cli.Command{
 		{
