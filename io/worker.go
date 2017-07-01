@@ -3,6 +3,7 @@ package io
 import (
 	"bufio"
 	"fmt"
+	"runtime"
 	"sync"
 )
 
@@ -18,7 +19,7 @@ func reader(iomap *IOMap, outputWorker chan Entry, formatter func(Entry) (Entry,
 
 	scanner := bufio.NewScanner(iomap.In)
 	count := 0
-	limit := 4
+	limit := runtime.NumCPU()
 	var semaphore = make(chan struct{}, limit)
 
 	defer func() {
